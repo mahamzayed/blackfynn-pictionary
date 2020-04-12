@@ -2,7 +2,13 @@
   <div class="dashboard">
     <h2>Blackfynn Pictionary</h2>
     <div class="dashboard-components">
-      <dashboard-buttons v-if="toggle" />
+      <dashboard-buttons 
+        v-if="toggle"
+        @erase-button="eraseButton" 
+        @pencil-button="pencilButton"
+        @paintbrush-button="paintbrushButton"
+        @shape-button="shapeButton"
+      />
       <dashboard-canvas />
     </div>
     <label class="switch">
@@ -17,25 +23,40 @@
 </template>
 
 <script>
-import DashboardCanvas from "../Dashboard/DashboardCanvas.vue";
-import DashboardButtons from "../Dashboard/DashboardButtons.vue";
+import DashboardCanvas from "../Dashboard/DashboardCanvas.vue"
+import DashboardButtons from "../Dashboard/DashboardButtons.vue"
+import { mapState } from 'vuex'
 export default {
   name: "Dashboard",
   components: {
     DashboardCanvas,
-    DashboardButtons,
+    DashboardButtons
   },
 
   data() {
     return {
-      toggle: false,
-    };
+      toggle: false
+    }
   },
 
   computed: {
+    ...mapState(['canvas', 'canvasCtx']),
+
     dashboardView: function() {
       return this.toggle ? "Player" : "Viewer";
     },
+  },
+
+  methods: {
+    eraseButton: function() {
+      this.canvasCtx.globalCompositeOperation = 'destination-out';
+      this.canvasCtx.lineWidth = 10;
+    },
+
+    shapeButton: function() {
+      // logic goes here
+      
+    }
   },
 };
 </script>

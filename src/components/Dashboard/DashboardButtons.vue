@@ -30,7 +30,7 @@
     </div>
     <div class="column">
       <div class="row">
-        <button @click="selectErase">
+        <button @click="selectEraser">
           <svgicon name="eraser-icon" width="20" height="30" color="#0D4872" />
         </button>
         <button @click="selectShape">
@@ -43,9 +43,9 @@
         <button @click="selectMove">
           <svgicon name="move-icon" width="20" height="30" color="#0D4872" />
         </button>
-      <button @click="selectColor">
+      <button @click="selectPaintbucket">
         <svgicon
-          name="color-picker-icon"
+          name="paintbucket-icon"
           width="20"
           height="30"
           color="#0D4872"
@@ -54,14 +54,30 @@
       </button>
     </div>
     </div>
+    <div class="dashboard-divider"/>
     <div class="dashboard-colors">
       <div class="column">
         <div class="row">
            <button class="red-color" @click="selectColor(red)"/>
            <button class="blue-color" @click="selectColor(blue)"/>
         </div>
+        <div class="row">
+          <button class="green-color" @click="selectColor(green)"/>
+          <button class="orange-color" @click="selectColor(orange)"/>
+        </div>
+        <div class="row">
+          <button class="purple-color" @click="selectColor(purple)"/>
+          <button class="yellow-color" @click="selectColor(yellow)"/>
+        </div>
+        <div class="row">
+          <button class="black-color" @click="selectColor(black)"/>
+          <button class="brown-color" @click="selectColor(brown)"/>
+        </div>
+        <div class="row">
+          <button class="gray-color" @click="selectColor(gray)"/>
+          <button class="white-color" @click="selectColor(white)"/>
+        </div>
       </div>
-     
    </div>
   </div>
 </template>
@@ -79,7 +95,46 @@ export default {
     selectClear: function() {
       this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
-  },
+
+    selectColor: function(color) {
+      // logic for selecting color
+    },
+
+    /**
+     * Select the eraser button
+     */
+    selectEraser: function() {
+      this.$emit('erase-button')
+    },
+
+    /**
+     * Select the pencil button
+     */
+    selectPencil: function() {
+      this.$emit('pencil-button')
+    },
+
+    /**
+     * Select the paintbrush button
+     */
+    selectPaintbrush: function() {
+      this.$emit('paintbrush-button')
+    },
+
+    /**
+     * Select the shape button
+     */
+    selectShape: function() {
+      this.$emit('shape-button')
+    },
+
+    /**
+     * Select the paintbucket button
+     */
+    selectPaintbucket: function() {
+      this.$emit('paintbucket-button')
+    }
+  }
 };
 </script>
 
@@ -103,7 +158,7 @@ export default {
 .column {
   display: flex;
   flex-direction: column;
-   padding-left: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 button {
@@ -115,6 +170,13 @@ button {
   cursor: pointer;
 }
 
+.dashboard-divider {
+  border-bottom: solid 1px black;
+  margin-bottom: 1rem;
+}
+
+
+/** TODO: change to one class later */
 .red-color {
   background-color: red;
   border: none;
@@ -132,4 +194,77 @@ button {
   width: 30px;
   height: 30px;
 }
+
+.green-color {
+  background-color: green;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.orange-color {
+  background-color: orange;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.purple-color {
+  background-color: purple;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.white-color {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.black-color {
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.brown-color {
+  background-color: brown;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.gray-color {
+  background-color: darkgray;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.yellow-color {
+  background-color: yellow;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+}
+
 </style>
