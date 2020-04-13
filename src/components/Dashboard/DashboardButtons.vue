@@ -58,24 +58,24 @@
     <div class="dashboard-colors">
       <div class="column">
         <div class="row">
-           <button class="red-color" @click="selectColor(red)"/>
-           <button class="blue-color" @click="selectColor(blue)"/>
+           <button class="red-color" @click="selectColor('red')"/>
+           <button class="blue-color" @click="selectColor('blue')"/>
         </div>
         <div class="row">
-          <button class="green-color" @click="selectColor(green)"/>
-          <button class="orange-color" @click="selectColor(orange)"/>
+          <button class="green-color" @click="selectColor('green')"/>
+          <button class="orange-color" @click="selectColor('orange')"/>
         </div>
         <div class="row">
-          <button class="purple-color" @click="selectColor(purple)"/>
-          <button class="yellow-color" @click="selectColor(yellow)"/>
+          <button class="purple-color" @click="selectColor('purple')"/>
+          <button class="yellow-color" @click="selectColor('yellow')"/>
         </div>
         <div class="row">
-          <button class="black-color" @click="selectColor(black)"/>
-          <button class="brown-color" @click="selectColor(brown)"/>
+          <button class="black-color" @click="selectColor('black')"/>
+          <button class="brown-color" @click="selectColor('brown')"/>
         </div>
         <div class="row">
-          <button class="gray-color" @click="selectColor(gray)"/>
-          <button class="white-color" @click="selectColor(white)"/>
+          <button class="gray-color" @click="selectColor('gray')"/>
+          <button class="white-color" @click="selectColor('white')"/>
         </div>
       </div>
    </div>
@@ -97,7 +97,7 @@ export default {
     },
 
     selectColor: function(color) {
-      // logic for selecting color
+      this.$emit('select-color', color)
     },
 
     /**
@@ -125,7 +125,7 @@ export default {
      * Select the shape button
      */
     selectShape: function() {
-      this.$emit('shape-button')
+      this.$emit('shape-button', true)
     },
 
     /**

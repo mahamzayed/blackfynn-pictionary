@@ -7,9 +7,17 @@
         @erase-button="eraseButton" 
         @pencil-button="pencilButton"
         @paintbrush-button="paintbrushButton"
+        @paintbucket-button="paintbucketButton"
         @shape-button="shapeButton"
+        @select-color="colorButton"
       />
-      <dashboard-canvas />
+      <canvas
+        id="canvas"
+        ref="canvasElement"
+        @mousedown="startPosition"
+        @mouseup="stopPosition"
+        @mousemove="draw"
+    />
     </div>
     <label class="switch">
       <input type="checkbox" v-model="toggle" />
@@ -23,19 +31,20 @@
 </template>
 
 <script>
-import DashboardCanvas from "../Dashboard/DashboardCanvas.vue"
 import DashboardButtons from "../Dashboard/DashboardButtons.vue"
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "Dashboard",
   components: {
-    DashboardCanvas,
     DashboardButtons
   },
 
   data() {
     return {
-      toggle: false
+      toggle: false,
+      rect: '',
+      drawShape: false,
+      color: 'black'
     }
   },
 
@@ -47,21 +56,79 @@ export default {
     },
   },
 
+   mounted() {
+    this.setCanvas(this.$refs.canvasElement);
+    this.setCanvasCtx(this.canvas.getContext('2d'))
+    this.rect = this.canvas.getBoundingClientRect()
+
+    // resizing for now, will adjust later
+    this.canvas.height = "500"
+    this.canvas.width = "500"
+  },
+
   methods: {
+     ...mapActions(['setCanvas', 'setCanvasCtx']),
+
+    startPosition: function(evt) {
+      this.isDrawing = true;
+      this.canvasCtx.beginPath()
+      this.draw(evt)
+    },
+
+    stopPosition: function() {
+      this.isDrawing = false
+    },
+
+    draw: function(evt) {
+      if (!this.isDrawing) return;
+      if (this.drawShape) {
+        const x = evt.clientX - this.rect.left 
+        const y = evt.clientY - this.rect.top
+        this.canvasCtx.fillRect(x, y, 200, 200)
+      } else {
+        this.canvasCtx.lineWidth = 10;
+        this.canvasCtx.lineCap = "round";
+        this.canvasCtx.lineTo(
+        evt.pageX - this.canvas.offsetLeft,
+        evt.pageY - this.canvas.offsetTop
+      )
+        this.canvasCtx.stroke()
+        this.canvasCtx.moveTo(
+        evt.pageX - this.canvas.offsetLeft,
+        evt.pageY - this.canvas.offsetTop
+      )
+      }
+      
+    },
+
+
+
     eraseButton: function() {
       this.canvasCtx.globalCompositeOperation = 'destination-out';
       this.canvasCtx.lineWidth = 10;
     },
 
-    shapeButton: function() {
-      // logic goes here
-      
+    shapeButton: function(val) {
+      this.drawShape = val
+    },
+
+    paintbucketButton: function() {
+      this.canvasCtx.fillStyle = this.color
+      this.canvasCtx.fill()
+    },
+
+    colorButton: function(color) {
+      this.color = color
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+#canvas {
+  border: 2px solid black;
+}
+
 .dashboard {
   h2 {
     margin-left: 2rem;
@@ -72,6 +139,7 @@ export default {
     display: inline-block;
     width: 60px;
     height: 34px;
+    margin-top: 1rem;
   }
 
   /* Hide default HTML checkbox */
