@@ -43,42 +43,42 @@
         <button @click="selectMove">
           <svgicon name="move-icon" width="20" height="30" color="#0D4872" />
         </button>
-      <button @click="selectPaintbucket">
-        <svgicon
-          name="paintbucket-icon"
-          width="20"
-          height="30"
-          color="#0D4872"
-          weight="300"
-        />
-      </button>
+        <button @click="selectPaintbucket">
+          <svgicon
+            name="paintbucket-icon"
+            width="20"
+            height="30"
+            color="#0D4872"
+            weight="300"
+          />
+        </button>
+      </div>
     </div>
-    </div>
-    <div class="dashboard-divider"/>
+    <div class="dashboard-divider" />
     <div class="dashboard-colors">
       <div class="column">
         <div class="row">
-           <button class="red-color" @click="selectColor('red')"/>
-           <button class="blue-color" @click="selectColor('blue')"/>
+          <button class="red-color" @click="selectColor('red')" />
+          <button class="blue-color" @click="selectColor('blue')" />
         </div>
         <div class="row">
-          <button class="green-color" @click="selectColor('green')"/>
-          <button class="orange-color" @click="selectColor('orange')"/>
+          <button class="green-color" @click="selectColor('green')" />
+          <button class="orange-color" @click="selectColor('orange')" />
         </div>
         <div class="row">
-          <button class="purple-color" @click="selectColor('purple')"/>
-          <button class="yellow-color" @click="selectColor('yellow')"/>
+          <button class="purple-color" @click="selectColor('purple')" />
+          <button class="yellow-color" @click="selectColor('yellow')" />
         </div>
         <div class="row">
-          <button class="black-color" @click="selectColor('black')"/>
-          <button class="brown-color" @click="selectColor('brown')"/>
+          <button class="black-color" @click="selectColor('black')" />
+          <button class="brown-color" @click="selectColor('brown')" />
         </div>
         <div class="row">
-          <button class="gray-color" @click="selectColor('gray')"/>
-          <button class="white-color" @click="selectColor('white')"/>
+          <button class="gray-color" @click="selectColor('gray')" />
+          <button class="white-color" @click="selectColor('white')" />
         </div>
       </div>
-   </div>
+    </div>
   </div>
 </template>
 
@@ -87,8 +87,15 @@ import { mapState } from "vuex";
 export default {
   name: "DashboardButtons",
 
+  data() {
+    return {
+      pencilButton: false,
+      paintbrushButton: false
+    };
+  },
+
   computed: {
-    ...mapState(["canvas", "canvasCtx"]),
+    ...mapState(["canvas", "canvasCtx"])
   },
 
   methods: {
@@ -97,42 +104,50 @@ export default {
     },
 
     selectColor: function(color) {
-      this.$emit('select-color', color)
+      this.$emit("select-color", color);
     },
 
     /**
      * Select the eraser button
      */
     selectEraser: function() {
-      this.$emit('erase-button')
+      this.$emit("erase-button");
     },
 
     /**
      * Select the pencil button
      */
     selectPencil: function() {
-      this.$emit('pencil-button')
+      this.$emit("pencil-button")
     },
 
     /**
      * Select the paintbrush button
      */
     selectPaintbrush: function() {
-      this.$emit('paintbrush-button')
+      this.$emit("paintbrush-button")
     },
 
     /**
      * Select the shape button
      */
     selectShape: function() {
-      this.$emit('shape-button', true)
+      this.$emit("shape-button", true);
     },
 
     /**
      * Select the paintbucket button
      */
     selectPaintbucket: function() {
-      this.$emit('paintbucket-button')
+      this.$emit("paintbucket-button");
+    },
+
+    selectUndo: function() {
+      // logic goes here
+    },
+
+    selectMove: function() {
+      // logic goes here
     }
   }
 };
@@ -143,7 +158,6 @@ export default {
   margin-right: 1rem;
   border: solid 1px black;
   background-color: lightgray;
- 
 }
 
 .dashboard-buttons-header {
@@ -174,7 +188,6 @@ button {
   border-bottom: solid 1px black;
   margin-bottom: 1rem;
 }
-
 
 /** TODO: change to one class later */
 .red-color {
@@ -266,5 +279,4 @@ button {
   width: 30px;
   height: 30px;
 }
-
 </style>

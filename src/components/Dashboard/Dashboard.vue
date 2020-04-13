@@ -2,9 +2,9 @@
   <div class="dashboard">
     <h2>Blackfynn Pictionary</h2>
     <div class="dashboard-components">
-      <dashboard-buttons 
+      <dashboard-buttons
         v-if="toggle"
-        @erase-button="eraseButton" 
+        @erase-button="eraseButton"
         @pencil-button="pencilButton"
         @paintbrush-button="paintbrushButton"
         @paintbucket-button="paintbucketButton"
@@ -17,7 +17,7 @@
         @mousedown="startPosition"
         @mouseup="stopPosition"
         @mousemove="draw"
-    />
+      />
     </div>
     <label class="switch">
       <input type="checkbox" v-model="toggle" />
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import DashboardButtons from "../Dashboard/DashboardButtons.vue"
-import { mapState, mapActions } from 'vuex'
+import DashboardButtons from "../Dashboard/DashboardButtons.vue";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Dashboard",
   components: {
@@ -42,85 +42,94 @@ export default {
   data() {
     return {
       toggle: false,
-      rect: '',
+      rect: "",
       drawShape: false,
-      color: 'black'
-    }
+      color: "black"
+    };
   },
 
   computed: {
-    ...mapState(['canvas', 'canvasCtx']),
+    ...mapState(["canvas", "canvasCtx"]),
 
     dashboardView: function() {
       return this.toggle ? "Player" : "Viewer";
-    },
+    }
   },
 
-   mounted() {
+  mounted() {
     this.setCanvas(this.$refs.canvasElement);
-    this.setCanvasCtx(this.canvas.getContext('2d'))
-    this.rect = this.canvas.getBoundingClientRect()
+    this.setCanvasCtx(this.canvas.getContext("2d"));
+    this.rect = this.canvas.getBoundingClientRect();
 
     // resizing for now, will adjust later
-    this.canvas.height = "500"
-    this.canvas.width = "500"
+    this.canvas.height = "500";
+    this.canvas.width = "500";
   },
 
   methods: {
-     ...mapActions(['setCanvas', 'setCanvasCtx']),
+    ...mapActions(["setCanvas", "setCanvasCtx"]),
 
     startPosition: function(evt) {
       this.isDrawing = true;
-      this.canvasCtx.beginPath()
-      this.draw(evt)
+      this.canvasCtx.beginPath();
+      this.draw(evt);
     },
 
     stopPosition: function() {
-      this.isDrawing = false
+      this.isDrawing = false;
     },
 
     draw: function(evt) {
       if (!this.isDrawing) return;
       if (this.drawShape) {
-        const x = evt.clientX - this.rect.left 
-        const y = evt.clientY - this.rect.top
-        this.canvasCtx.fillRect(x, y, 200, 200)
+        const x = evt.clientX - this.rect.left;
+        const y = evt.clientY - this.rect.top;
+        this.canvasCtx.fillRect(x, y, 200, 200);
       } else {
         this.canvasCtx.lineWidth = 10;
         this.canvasCtx.lineCap = "round";
         this.canvasCtx.lineTo(
-        evt.pageX - this.canvas.offsetLeft,
-        evt.pageY - this.canvas.offsetTop
-      )
-        this.canvasCtx.stroke()
+          evt.pageX - this.canvas.offsetLeft,
+          evt.pageY - this.canvas.offsetTop
+        );
+        this.canvasCtx.stroke();
         this.canvasCtx.moveTo(
-        evt.pageX - this.canvas.offsetLeft,
-        evt.pageY - this.canvas.offsetTop
-      )
+          evt.pageX - this.canvas.offsetLeft,
+          evt.pageY - this.canvas.offsetTop
+        );
       }
-      
     },
 
-
-
     eraseButton: function() {
-      this.canvasCtx.globalCompositeOperation = 'destination-out';
+      this.canvasCtx.globalCompositeOperation = "destination-out";
       this.canvasCtx.lineWidth = 10;
     },
 
     shapeButton: function(val) {
-      this.drawShape = val
+      this.drawShape = val;
     },
 
     paintbucketButton: function() {
-      this.canvasCtx.fillStyle = this.color
-      this.canvasCtx.fill()
+      this.canvasCtx.fillStyle = this.color;
+      this.canvasCtx.fill();
     },
 
     colorButton: function(color) {
-      this.color = color
+      this.color = color;
+    },
+
+    pencilButton: function() {
+      // logic goes here
+    },
+
+    paintbrushButton: function() {
+      // logic goes here
+    },
+
+    submitGuess: function() {
+      // logic goes here
     }
-  },
+  }
 };
 </script>
 
